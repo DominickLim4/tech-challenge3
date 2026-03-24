@@ -25,13 +25,12 @@ services:
 
   # Backend — Node.js REST API (replace with your actual backend image/build)
   backend:
-    image: node:18-alpine
+    image: node:20-alpine
     container_name: tech-challenge-backend
     working_dir: /app
-    # Replace the command below with your actual backend startup
-    command: sh -c "npm install -g json-server && json-server --watch db.json --port 3000 --host 0.0.0.0"
+    command: node mock/server.cjs
     volumes:
-      - ./mock/db.json:/app/db.json
+      - ./mock:/app/mock
     ports:
       - "3001:3000"
     networks:
