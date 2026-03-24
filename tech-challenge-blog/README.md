@@ -9,7 +9,7 @@ Plataforma de blog educacional desenvolvida como Tech Challenge da pós-graduaç
 | React | 19.x | UI library |
 | React Router v7 | 7.x | Roteamento SPA |
 | Styled Components | 6.x | CSS-in-JS |
-| Axios | 1.x | Requisições HTTP |
+| Axios | 1.x | Requisições HTTP | Teste
 | Vite | 8.x | Build tool |
 | Vitest + RTL | 4.x | Testes |
 | Docker + nginx | alpine | Containerização |
