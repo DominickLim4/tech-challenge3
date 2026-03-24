@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Frontend — React app served via nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000/api}
+        VITE_APP_NAME: ${VITE_APP_NAME:-Tech Challenge Blog}
+    container_name: tech-challenge-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - blog-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend — Node.js REST API (replace with your actual backend image/build)
+  backend:
+    image: node:18-alpine
+    container_name: tech-challenge-backend
+    working_dir: /app
+    # Replace the command below with your actual backend startup
+    command: sh -c "npm install -g json-server && json-server --watch db.json --port 3000 --host 0.0.0.0"
+    volumes:
+      - ./mock/db.json:/app/db.json
+    ports:
+      - "3001:3000"
+    networks:
+      - blog-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  blog-network:
+    driver: bridge
+
+volumes:
+  node_modules:
